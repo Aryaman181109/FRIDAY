@@ -62,9 +62,11 @@ declare global {
 
 interface UseSpeechInputOptions {
   onTranscript: (transcript: string) => void;
+  onInterimTranscript?: (text: string) => void;
   onError?: (message: string) => void;
   onWake?: () => void;
   autoStart?: boolean;
+  autoRestart?: boolean;
 }
 
 interface TranscribeAudioRequest {
@@ -238,6 +240,8 @@ export function useSpeechInput({
   onError,
   onWake,
   onTranscript,
+  onInterimTranscript,
+  autoRestart = true,
 }: UseSpeechInputOptions) {
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const recognitionRef = useRef<BrowserSpeechRecognition | null>(null);
@@ -249,6 +253,8 @@ export function useSpeechInput({
   const speakingUntilRef = useRef(0);
   const restartTimeoutRef = useRef<number | null>(null);
   const recordingTimeoutRef = useRef<number | null>(null);
+  const optionsRef = useRef<UseSpeechInputOptions>({ onTranscript: () => {} });
+  optionsRef.current = { onTranscript, onInterimTranscript, onError, onWake, autoStart, autoRestart };
   const [isMuted, setIsMuted] = useState(false);
   const [state, setState] = useState<SpeechInputState>(() =>
     isBrowserSpeechSupported() || isRecordedSpeechSupported()
@@ -356,32 +362,50 @@ export function useSpeechInput({
     let receivedTranscript = false;
     const recognition = new Recognition();
     recognition.continuous = false;
-    recognition.interimResults = false;
+    recognition.interimResults = true;
     recognition.lang = navigator.language || "en-US";
 
     recognition.onresult = (event) => {
-      const transcript = Array.from(
-        { length: event.results.length - event.resultIndex },
-        (_, offset) => event.results[event.resultIndex + offset],
+      const allText = Array.from(
+        { length: event.results.length },
+        (_, i) => event.results[i],
       )
         .map((result) => result[0]?.transcript ?? "")
         .join(" ")
         .replace(/\s+/g, " ")
         .trim();
 
-      if (!transcript) return;
+      if (allText) {
+        optionsRef.current.onInterimTranscript?.(allText);
+      }
 
-      const handled = handleParsedVoice(transcript);
+      const finalResults = Array.from(
+        { length: event.results.length - event.resultIndex },
+        (_, offset) => event.results[event.resultIndex + offset],
+      )
+        .filter((r) => r.isFinal)
+        .map((r) => r[0]?.transcript ?? "")
+        .join(" ")
+        .replace(/\s+/g, " ")
+        .trim();
+
+      if (!finalResults) return;
+
+      const handled = handleParsedVoice(finalResults);
       if (!handled) {
         setState("idle");
-        scheduleRestart(RESTART_AFTER_EMPTY_MS);
+        if (optionsRef.current.autoRestart) {
+          scheduleRestart(RESTART_AFTER_EMPTY_MS);
+        }
         return;
       }
 
       receivedTranscript = true;
       recognitionRef.current = null;
       setState("idle");
-      scheduleRestart(RESTART_AFTER_TRANSCRIPT_MS);
+      if (optionsRef.current.autoRestart) {
+        scheduleRestart(RESTART_AFTER_TRANSCRIPT_MS);
+      }
     };
 
     recognition.onerror = (event) => {
@@ -503,11 +527,15 @@ export function useSpeechInput({
             lastErrorRef.current = null;
 
             if (handled) {
-              scheduleRestart(RESTART_AFTER_TRANSCRIPT_MS);
+              if (optionsRef.current.autoRestart) {
+                scheduleRestart(RESTART_AFTER_TRANSCRIPT_MS);
+              }
               return;
             }
 
-            scheduleRestart(RESTART_AFTER_EMPTY_MS);
+            if (optionsRef.current.autoRestart) {
+              scheduleRestart(RESTART_AFTER_EMPTY_MS);
+            }
           } catch (error) {
             const message = reportError(error);
             setState("error");
@@ -608,5 +636,6 @@ export function useSpeechInput({
     isSupported: state !== "unsupported",
     state,
     toggleMute,
+    stopListening,
   };
 }

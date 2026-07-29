@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import Clock from "../home/Clock";
 import CommandDock from "./CommandDock";
-import HomeSurface from "./HomeSurface";
+import { UltronInterface } from "../../interface/ultron";
 import {
   appShellVariants,
   fadeInClock,
@@ -16,30 +16,30 @@ export default function AppShell() {
       animate="visible"
       variants={appShellVariants}
     >
-        <motion.div
-          className="app-shell__top-left"
-          variants={fadeInClock}
-        >
-          <Clock />
-        </motion.div>
-        <motion.div
-          className="app-shell__status"
-          variants={fadeInClock}
-          aria-hidden
-        >
-          <span className="app-shell__signal">
-            <span />
-            <span />
-            <span />
-            <span />
-          </span>
-          <span className="app-shell__status-dot" />
-          <span className="app-shell__status-divider" />
-          <span className="app-shell__status-text">FRIDAY ONLINE</span>
-          <span className="app-shell__status-pulse" />
-        </motion.div>
-        <HomeSurface />
-        <CommandDock />
+      <UltronInterface />
+      <motion.div
+        className="app-shell__top-left"
+        variants={fadeInClock}
+      >
+        <Clock />
+      </motion.div>
+      <motion.div
+        className="app-shell__status"
+        variants={fadeInClock}
+        aria-hidden
+      >
+        <span className="app-shell__signal">
+          <span />
+          <span />
+          <span />
+          <span />
+        </span>
+        <span className="app-shell__status-dot" />
+        <span className="app-shell__status-divider" />
+        <span className="app-shell__status-text">FRIDAY ONLINE</span>
+        <span className="app-shell__status-pulse" />
+      </motion.div>
+      <CommandDock />
     </motion.div>
   );
 }

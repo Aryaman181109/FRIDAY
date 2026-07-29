@@ -53,14 +53,14 @@
   left: var(--space-shell-x);
   width: fit-content;
   pointer-events: none;
-  z-index: 3;
+  z-index: 30;
 }
 
 .app-shell__status {
   position: absolute;
   top: calc(var(--space-shell-top) + 0.25rem);
   right: var(--space-shell-x);
-  z-index: 3;
+  z-index: 30;
   display: flex;
   align-items: center;
   gap: 0.9rem;

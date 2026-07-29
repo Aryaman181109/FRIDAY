@@ -1,13 +1,14 @@
+import { forwardRef, useEffect, useImperativeHandle } from "react";
 import { motion } from "framer-motion";
 import { useSpeechInput } from "../../../features/voice/useSpeechInput";
 import { easePremium } from "../../../styles/motion";
 
-function MicIcon() {
+function MicIcon({ size = 16 }: { size?: number }) {
   return (
     <svg
       className="command-bar__mic-icon"
-      width="16"
-      height="16"
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -23,48 +24,72 @@ function MicIcon() {
   );
 }
 
+export interface MicButtonHandle {
+  stopListening: () => void;
+  isListening: boolean;
+  state: string;
+}
+
 interface MicButtonProps {
   onTranscript: (transcript: string) => void;
+  onInterimTranscript?: (text: string) => void;
   onError?: (message: string) => void;
   onWake?: () => void;
+  onStateChange?: (state: string) => void;
 }
 
-export default function MicButton({ onTranscript, onError, onWake }: MicButtonProps) {
-  const { isListening, isMuted, isSupported, toggleMute } = useSpeechInput({
-    autoStart: true,
-    onError,
-    onWake,
-    onTranscript,
-  });
+const MicButton = forwardRef<MicButtonHandle, MicButtonProps>(
+  ({ onTranscript, onInterimTranscript, onError, onWake, onStateChange }, ref) => {
+    const { isListening, isSupported, state, toggleMute, stopListening } =
+      useSpeechInput({
+        autoStart: true,
+        onError,
+        onWake,
+        onTranscript,
+        onInterimTranscript,
+      });
 
-  return (
-    <motion.button
-      className="command-bar__mic"
-      type="button"
-      aria-label={isMuted ? "Unmute microphone" : "Mute microphone"}
-      aria-pressed={!isMuted}
-      data-listening={isListening ? "true" : "false"}
-      data-muted={isMuted ? "true" : "false"}
-      disabled={!isSupported}
-      onClick={toggleMute}
-      whileHover={{
-        scale: 1.035,
-        transition: { duration: 0.4, ease: easePremium },
-      }}
-      whileTap={{
-        scale: 0.96,
-        transition: { duration: 0.18, ease: easePremium },
-      }}
-    >
-      <motion.span
-        className="command-bar__mic-inner"
+    useImperativeHandle(ref, () => ({ stopListening, isListening, state }), [
+      stopListening,
+      isListening,
+      state,
+    ]);
+
+    useEffect(() => {
+      onStateChange?.(state);
+    }, [state, onStateChange]);
+
+    return (
+      <motion.button
+        className="command-bar__mic"
+        type="button"
+        aria-label={isListening ? "Listening, click to stop" : "Start listening"}
+        aria-pressed={isListening}
+        data-state={state}
+        disabled={!isSupported}
+        onClick={toggleMute}
         whileHover={{
-          opacity: 1,
-          transition: { duration: 0.35, ease: easePremium },
+          scale: 1.06,
+          transition: { duration: 0.4, ease: easePremium },
+        }}
+        whileTap={{
+          scale: 0.94,
+          transition: { duration: 0.18, ease: easePremium },
         }}
       >
-        <MicIcon />
-      </motion.span>
-    </motion.button>
-  );
-}
+        <motion.span
+          className="command-bar__mic-inner"
+          whileHover={{
+            opacity: 1,
+            transition: { duration: 0.35, ease: easePremium },
+          }}
+        >
+          <MicIcon size={22} />
+        </motion.span>
+      </motion.button>
+    );
+  },
+);
+
+MicButton.displayName = "MicButton";
+export default MicButton;
