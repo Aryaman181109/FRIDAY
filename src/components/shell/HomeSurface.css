@@ -1,0 +1,21 @@
+.home-surface {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding-inline: var(--space-shell-x);
+  padding-block: 5.4rem 9.5rem;
+}
+
+.home-surface__hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+  transform: translateY(-2.1vh);
+}

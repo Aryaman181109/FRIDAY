@@ -1,0 +1,45 @@
+.command-dock {
+  position: fixed;
+  bottom: var(--space-shell-bottom);
+  left: 0;
+  right: 0;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(var(--command-bar-width), calc(100vw - var(--space-shell-x) * 2));
+  z-index: 100;
+  transition: bottom var(--motion-duration) var(--motion-ease-premium);
+}
+
+.command-dock--open {
+  bottom: calc(var(--space-shell-bottom) + 12rem);
+}
+
+.command-dock__bar {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  z-index: 2;
+}
+
+.command-dock__panel {
+  position: absolute;
+  top: calc(100% + 0.85rem);
+  width: min(var(--command-bar-width), calc(100vw - var(--space-shell-x) * 2));
+  z-index: 1;
+  pointer-events: none;
+}
+
+.command-dock__panel > .glass-panel {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.command-dock__panel > .glass-panel.response-panel {
+  pointer-events: auto;
+}

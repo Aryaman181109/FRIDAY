@@ -1,0 +1,383 @@
+.ai-orb {
+  position: relative;
+  width: var(--orb-size);
+  height: var(--orb-size);
+  margin-bottom: 0.25rem;
+  isolation: isolate;
+  --orb-audio: 0;
+}
+
+.ai-orb::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 8%;
+  z-index: 0;
+  width: 58%;
+  height: 5%;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse,
+    rgba(245, 245, 245, 0.28) 0%,
+    rgba(214, 214, 220, 0.1) 42%,
+    transparent 72%
+  );
+  filter: blur(1.05rem);
+  opacity: 0.035;
+  pointer-events: none;
+}
+
+.ai-orb__glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 0;
+  width: 92%;
+  height: 92%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(255, 255, 255, 0.035) 0 18%, transparent 42%),
+    radial-gradient(circle, rgba(129, 128, 160, 0.13) 34%, transparent 67%);
+  filter: blur(2.65rem);
+  opacity: calc(0.5 + var(--orb-audio) * 0.22);
+  pointer-events: none;
+  animation: orb-glow-breathe 11.4s var(--motion-ease-in-out) infinite;
+}
+
+.ai-orb__fallback {
+  position: absolute;
+  inset: 18.5%;
+  z-index: 1;
+  border-radius: 50%;
+  pointer-events: none;
+  filter:
+    drop-shadow(0 0 0.12rem rgba(255, 255, 255, calc(0.78 + var(--orb-audio) * 0.12)))
+    drop-shadow(0 0 0.95rem rgba(255, 255, 255, calc(0.13 + var(--orb-audio) * 0.14)));
+  animation: jarvis-orb-breathe 11.2s var(--motion-ease-in-out) infinite;
+}
+
+.ai-orb__void {
+  position: absolute;
+  inset: 22.5%;
+  z-index: 2;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(0, 0, 0, 0.96) 0 66%, rgba(5, 5, 8, 0.72) 83%, transparent 100%);
+  box-shadow:
+    inset 0 0 1.2rem rgba(0, 0, 0, 0.76),
+    0 0 1.6rem rgba(10, 10, 18, 0.55);
+}
+
+.ai-orb__rim {
+  position: absolute;
+  inset: 8.5%;
+  z-index: 3;
+  border-radius: 50%;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  -webkit-mask:
+    radial-gradient(circle, transparent 0 45%, black 49% 57%, transparent 66%);
+  mask:
+    radial-gradient(circle, transparent 0 45%, black 49% 57%, transparent 66%);
+}
+
+.ai-orb__rim--primary {
+  background:
+    conic-gradient(
+      from 214deg,
+      transparent 0deg,
+      rgba(255, 255, 255, 0.06) 14deg,
+      rgba(255, 255, 255, 0.68) 29deg,
+      rgba(242, 240, 232, 0.88) 47deg,
+      rgba(255, 255, 255, 0.14) 70deg,
+      transparent 98deg,
+      transparent 146deg,
+      rgba(255, 255, 255, 0.18) 174deg,
+      rgba(250, 248, 240, 0.78) 206deg,
+      rgba(255, 255, 255, 0.46) 236deg,
+      transparent 274deg,
+      transparent 360deg
+    );
+  opacity: 0.86;
+  filter: blur(0.018rem);
+  transform: scale(1.02, 0.98);
+  animation: jarvis-rim-primary 11.6s var(--motion-ease-in-out) infinite;
+}
+
+.ai-orb__rim--broken {
+  inset: 6%;
+  background:
+    conic-gradient(
+      from 36deg,
+      transparent 0deg,
+      rgba(255, 255, 255, 0.7) 18deg,
+      transparent 46deg,
+      transparent 96deg,
+      rgba(255, 255, 255, 0.42) 124deg,
+      rgba(255, 255, 255, 0.88) 142deg,
+      transparent 170deg,
+      transparent 230deg,
+      rgba(255, 255, 255, 0.5) 258deg,
+      transparent 294deg,
+      transparent 360deg
+    );
+  opacity: 0.62;
+  filter: blur(0.1rem);
+  transform: scale(0.98, 1.035);
+  animation: jarvis-rim-broken 12.2s var(--motion-ease-in-out) infinite;
+}
+
+.ai-orb__rim--smoke {
+  inset: 3%;
+  background:
+    conic-gradient(
+      from 80deg,
+      transparent 0deg,
+      rgba(210, 210, 210, 0.14) 36deg,
+      rgba(255, 255, 255, 0.34) 66deg,
+      transparent 104deg,
+      transparent 190deg,
+      rgba(255, 255, 255, 0.14) 232deg,
+      rgba(255, 255, 255, 0.38) 266deg,
+      transparent 318deg,
+      transparent 360deg
+    );
+  opacity: 0.44;
+  filter: blur(0.38rem);
+  transform: scale(1.055, 0.955);
+  animation: jarvis-rim-smoke 13.4s var(--motion-ease-in-out) infinite;
+}
+
+.ai-orb__clump {
+  position: absolute;
+  z-index: 4;
+  border-radius: 45% 55% 52% 48% / 60% 43% 57% 40%;
+  background:
+    radial-gradient(ellipse at 38% 42%, rgba(255, 255, 255, 0.92), transparent 24%),
+    radial-gradient(ellipse at 64% 58%, rgba(232, 230, 224, 0.58), transparent 44%);
+  filter: blur(0.035rem);
+  opacity: 0.5;
+  mix-blend-mode: screen;
+}
+
+.ai-orb__clump--left {
+  left: 9%;
+  top: 34%;
+  width: 15%;
+  height: 31%;
+  transform: rotate(9deg);
+  animation: jarvis-clump-left 10.8s var(--motion-ease-in-out) infinite;
+}
+
+.ai-orb__clump--bottom {
+  left: 35%;
+  bottom: 8%;
+  width: 34%;
+  height: 10%;
+  opacity: 0.34;
+  transform: rotate(7deg);
+  animation: jarvis-clump-bottom 12s var(--motion-ease-in-out) infinite;
+}
+
+.ai-orb__powder {
+  position: absolute;
+  inset: 3%;
+  z-index: 5;
+  border-radius: 50%;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  -webkit-mask:
+    radial-gradient(circle, transparent 0 45%, black 48% 61%, transparent 66%);
+  mask:
+    radial-gradient(circle, transparent 0 45%, black 48% 61%, transparent 66%);
+}
+
+.ai-orb__powder--near {
+  background:
+    radial-gradient(circle at 18% 43%, rgba(255, 255, 255, 0.95) 0 0.6%, transparent 1.25%),
+    radial-gradient(circle at 21% 49%, rgba(255, 255, 255, 0.55) 0 0.45%, transparent 1.05%),
+    radial-gradient(circle at 27% 35%, rgba(255, 255, 255, 0.72) 0 0.4%, transparent 1.15%),
+    radial-gradient(circle at 34% 24%, rgba(255, 255, 255, 0.5) 0 0.35%, transparent 1%),
+    radial-gradient(circle at 47% 17%, rgba(255, 255, 255, 0.62) 0 0.45%, transparent 1.1%),
+    radial-gradient(circle at 63% 21%, rgba(255, 255, 255, 0.72) 0 0.5%, transparent 1.15%),
+    radial-gradient(circle at 75% 33%, rgba(255, 255, 255, 0.86) 0 0.55%, transparent 1.2%),
+    radial-gradient(circle at 83% 48%, rgba(255, 255, 255, 0.55) 0 0.4%, transparent 1.05%),
+    radial-gradient(circle at 74% 70%, rgba(255, 255, 255, 0.7) 0 0.48%, transparent 1.1%),
+    radial-gradient(circle at 56% 83%, rgba(255, 255, 255, 0.78) 0 0.55%, transparent 1.2%),
+    radial-gradient(circle at 39% 80%, rgba(255, 255, 255, 0.58) 0 0.42%, transparent 1.1%),
+    radial-gradient(circle at 25% 66%, rgba(255, 255, 255, 0.82) 0 0.5%, transparent 1.2%);
+  opacity: 0.78;
+  filter: blur(0.01rem);
+  animation: jarvis-powder-near 10.6s var(--motion-ease-in-out) infinite;
+}
+
+.ai-orb__powder--far {
+  inset: 0;
+  background:
+    radial-gradient(circle at 14% 47%, rgba(255, 255, 255, 0.32) 0 0.38%, transparent 1%),
+    radial-gradient(circle at 31% 20%, rgba(255, 255, 255, 0.28) 0 0.34%, transparent 0.95%),
+    radial-gradient(circle at 51% 13%, rgba(255, 255, 255, 0.38) 0 0.36%, transparent 1%),
+    radial-gradient(circle at 79% 29%, rgba(255, 255, 255, 0.34) 0 0.34%, transparent 1%),
+    radial-gradient(circle at 88% 55%, rgba(255, 255, 255, 0.26) 0 0.32%, transparent 0.95%),
+    radial-gradient(circle at 69% 86%, rgba(255, 255, 255, 0.34) 0 0.36%, transparent 1%),
+    radial-gradient(circle at 43% 91%, rgba(255, 255, 255, 0.24) 0 0.3%, transparent 0.9%),
+    radial-gradient(circle at 16% 72%, rgba(255, 255, 255, 0.3) 0 0.34%, transparent 0.95%);
+  opacity: 0.42;
+  filter: blur(0.055rem);
+  animation: jarvis-powder-far 12.8s var(--motion-ease-in-out) infinite;
+}
+
+.ai-orb__canvas {
+  position: relative;
+  z-index: 2;
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: calc(0.32 + var(--orb-audio) * 0.24);
+  filter:
+    drop-shadow(0 0 0.12rem rgba(255, 255, 255, calc(0.38 + var(--orb-audio) * 0.2)))
+    drop-shadow(0 0 0.62rem rgba(255, 255, 255, calc(0.1 + var(--orb-audio) * 0.16)));
+}
+
+@keyframes jarvis-orb-breathe {
+  0%,
+  100% {
+    transform: scale(0.985);
+    opacity: 0.9;
+  }
+
+  50% {
+    transform: scale(1.025);
+    opacity: 1;
+  }
+}
+
+@keyframes jarvis-rim-primary {
+  0%,
+  100% {
+    transform: translate3d(-0.4%, 0.2%, 0) scale(1.03, 0.97);
+  }
+
+  50% {
+    transform: translate3d(0.6%, -0.3%, 0) scale(0.99, 1.02);
+  }
+}
+
+@keyframes jarvis-rim-broken {
+  0%,
+  100% {
+    transform: translate3d(0.4%, -0.2%, 0) scale(0.96, 1.05);
+    opacity: 0.58;
+  }
+
+  50% {
+    transform: translate3d(-0.6%, 0.5%, 0) scale(1.02, 0.98);
+    opacity: 0.72;
+  }
+}
+
+@keyframes jarvis-rim-smoke {
+  0%,
+  100% {
+    transform: translate3d(-0.5%, -0.2%, 0) scale(1.08, 0.93);
+    opacity: 0.48;
+  }
+
+  50% {
+    transform: translate3d(0.7%, 0.5%, 0) scale(1.02, 1.01);
+    opacity: 0.7;
+  }
+}
+
+@keyframes jarvis-clump-left {
+  0%,
+  100% {
+    transform: translate3d(-2%, 1%, 0) rotate(9deg) scale(0.96);
+    opacity: 0.58;
+  }
+
+  50% {
+    transform: translate3d(4%, -3%, 0) rotate(2deg) scale(1.08);
+    opacity: 0.9;
+  }
+}
+
+@keyframes jarvis-clump-bottom {
+  0%,
+  100% {
+    transform: translate3d(1%, 0, 0) rotate(7deg) scaleX(0.95);
+    opacity: 0.38;
+  }
+
+  50% {
+    transform: translate3d(-3%, -2%, 0) rotate(2deg) scaleX(1.08);
+    opacity: 0.62;
+  }
+}
+
+@keyframes jarvis-powder-near {
+  0%,
+  100% {
+    transform: translate3d(-0.5%, 0.2%, 0) rotate(-2deg) scale(0.99);
+    opacity: 0.72;
+  }
+
+  50% {
+    transform: translate3d(0.8%, -0.6%, 0) rotate(2deg) scale(1.015);
+    opacity: 0.92;
+  }
+}
+
+@keyframes jarvis-powder-far {
+  0%,
+  100% {
+    transform: translate3d(0.6%, -0.3%, 0) rotate(3deg) scale(1.01);
+    opacity: 0.42;
+  }
+
+  50% {
+    transform: translate3d(-0.9%, 0.8%, 0) rotate(-2deg) scale(0.99);
+    opacity: 0.64;
+  }
+}
+
+@keyframes orb-glow-breathe {
+  0%,
+  100% {
+    opacity: 0.72;
+    transform: translate(-50%, -50%) scale(0.97);
+  }
+
+  50% {
+    opacity: 0.9;
+    transform: translate(-50%, -50%) scale(1.03);
+  }
+}
+
+.ai-orb__glow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.08) 0%,
+    transparent 58%
+  );
+  opacity: 0;
+  animation: orb-glow-idle-pulse 5s var(--motion-ease-soft) infinite;
+}
+
+@keyframes orb-glow-idle-pulse {
+  0%,
+  82%,
+  100% {
+    opacity: 0;
+  }
+
+  90% {
+    opacity: 0.3;
+  }
+}

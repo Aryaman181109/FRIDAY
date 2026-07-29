@@ -1,0 +1,57 @@
+:root {
+  /* Color */
+  --color-bg: #030304;
+  --color-text-primary: #ffffff;
+  --color-text-muted: rgba(255, 255, 255, 0.45);
+  --color-text-subtle: rgba(255, 255, 255, 0.34);
+  --color-border-glass: rgba(224, 221, 255, 0.2);
+  --color-glass-bg: rgba(255, 255, 255, 0.045);
+  --color-glass-highlight: rgba(255, 255, 255, 0.18);
+  --color-glass-shadow: rgba(0, 0, 0, 0.58);
+
+  /* Typography */
+  --font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+    system-ui, sans-serif;
+  --font-weight-thin: 200;
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --letter-spacing-brand: 0.35em;
+  --letter-spacing-wide: 0.12em;
+  --font-size-clock: 2.15rem;
+  --font-size-greeting: 1.1rem;
+  --font-size-brand: clamp(3.35rem, 5.2vw, 5rem);
+  --font-size-command: 1rem;
+
+  /* Spacing */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 3rem;
+  --space-xl: 5rem;
+  --space-xxl: 8rem;
+  --space-shell-x: clamp(1.5rem, 3vw, 3rem);
+  --space-shell-top: clamp(1.5rem, 3.6vh, 2.35rem);
+  --space-shell-bottom: clamp(2rem, 6.8vh, 3.8rem);
+
+  /* Layout */
+  --command-bar-width: 780px;
+  --command-bar-radius: 999px;
+  --orb-size: clamp(25rem, 37vw, 34rem);
+  --response-panel-hidden-y: -12px;
+  --response-panel-visible-y: 0px;
+  --command-bar-height: 5.25rem;
+
+  /* Glass */
+  --glass-blur: 2.75rem;
+  --glass-padding-x: 1.25rem;
+  --glass-padding-y: 1rem;
+
+  /* Motion */
+  --motion-duration: 0.55s;
+  --motion-duration-hover: 0.5s;
+  --motion-duration-slow: 0.85s;
+  --motion-ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --motion-ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-ease-soft: cubic-bezier(0.16, 1, 0.3, 1);
+  --motion-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+}

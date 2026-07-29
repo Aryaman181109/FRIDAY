@@ -1,0 +1,42 @@
+.schedule-response__title {
+  font-size: 1.15rem;
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-sm);
+  padding-inline: var(--glass-padding-x);
+  padding-top: var(--glass-padding-y);
+}
+
+.schedule-response__list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.125rem; /* Increased gap between schedule items */
+  width: 100%;
+  padding-bottom: var(--glass-padding-y);
+}
+
+.schedule-response__item {
+  display: flex;
+  align-items: baseline;
+  gap: 1.75rem; /* Increased gap for better visual separation */
+  padding-inline: var(--glass-padding-x);
+}
+
+.schedule-response__time {
+  flex-shrink: 0;
+  width: 4rem; /* Increased width for better alignment */
+  font-size: 0.9rem;
+  font-weight: 300;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-subtle);
+  letter-spacing: 0.03em; /* Slightly increased letter spacing */
+}
+
+.schedule-response__label {
+  font-size: 1.05rem;
+  font-weight: 300;
+  color: var(--color-text-primary);
+  letter-spacing: 0.015em; /* Slightly increased letter spacing */
+}

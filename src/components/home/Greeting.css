@@ -1,0 +1,9 @@
+.greeting {
+  margin-top: 1rem;
+  font-size: var(--font-size-greeting);
+  font-weight: 300;
+  color: rgba(222, 215, 255, 0.86);
+  letter-spacing: 0.14em;
+  opacity: 1;
+  text-shadow: 0 0 1.35rem rgba(157, 134, 255, 0.34);
+}
